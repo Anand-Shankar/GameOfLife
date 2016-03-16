@@ -86,3 +86,68 @@ func neighbours(gameboard [][]int, i, j int) int {
 	fmt.Printf("  x = %d  Alive Neighbours = %d\n", x, alive_neighbours)
 	return alive_neighbours
 }
+
+
+
+func newGameboard(row, column int) [][]int{
+
+}
+
+type board [][]int
+
+
+gameBoard := board{}
+
+const row, column := 5, 5
+gameBoard.newGameboard(row, column)
+
+gameBoard.seed(r,c)
+
+
+
+gameBoard.randomSeed()
+gameBoard.iteration()
+gameBoard.run(iterCount)
+
+assert
+
+
+
+/*
+package main
+
+import "fmt"
+
+func main() {
+
+	type board [][]int
+	
+	gameBoard := board{}
+	gameBoard = [][]int{
+		[]int{5, 5},
+		[]int{6, 6},
+	}
+	
+	
+	//gameBoard.newGameboard(row, column)
+
+//fmt.Println(game.board)
+//fmt.Println(game)
+fmt.Println(gameboard)
+
+}
+
+
+type board [][]int
+gameBoard := board{}
+
+const row = 5
+const column = 5
+
+
+func newGameboard(row, column int) {
+	gameBoard := make(int[][], len(i))
+	for i:=0; i<row; i++{
+		make(int[], len(gameBoard[i]))
+		for j:=0; j<column; j++{
+			gameBoard*/
