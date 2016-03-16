@@ -151,3 +151,19 @@ func newGameboard(row, column int) {
 		make(int[], len(gameBoard[i]))
 		for j:=0; j<column; j++{
 			gameBoard*/
+
+
+/*			type board [][]int
+gameBoard := board{}
+
+const row = 5
+const column = 5
+
+
+func (g gameBoard) newGameboard(row, column int) {
+	gameBoard := make(int[][], row)
+	for i:=0; i<row; i++{
+		make(int[], column)
+	}
+}
+*/
