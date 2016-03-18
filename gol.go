@@ -101,16 +101,15 @@ gameBoard := board{}
 const row, column := 5, 5
 gameBoard.newGameboard(row, column)
 
-gameBoard.seed(r,c)
 
+//gameBoard.seed(r,c)
 
+//gameBoard.randomSeed()
 
-gameBoard.randomSeed()
 gameBoard.iteration()
 gameBoard.run(iterCount)
 
 assert
-
 
 
 /*

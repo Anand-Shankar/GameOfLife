@@ -10,7 +10,7 @@ import (
 type board [][]int
 const row int = 5
 const col int = 5
-const generations 10
+const generations int = 10
 
 func New(row, col int) board{
 	b := make(board, row)
@@ -48,22 +48,19 @@ func (b board) Copy(copyBoard board){
 
 func main() {
 	gameBoard := New(row, col)
-	copyBoard := New(row, col)
+	
 
 	rand.Seed(time.Now().Unix())
 	gameBoard.randomSeed()
-
-	gameBoard.Copy(copyGameBoard)
-	
-	gameBoard.randomSeed()
 	gameBoard.Print()
-	copyBoard.Print()
-
 	gameBoard.iteration(generations)
-
+	gameBoard.Print()
 }
 
-func (mainBoard board) iteration(gen int, copyBoard board){
+func (mainBoard board) iteration(gen int){
+	copyBoard := New(row, col)
+	mainBoard.Copy(copyBoard)
+
 	for g:=0; g<gen; g++{
 		for i := range(mainBoard){
 			for j := range(mainBoard[i]){
@@ -74,7 +71,7 @@ func (mainBoard board) iteration(gen int, copyBoard board){
 }
 
 
-func (b board) gameLogic(i, j int) board{
+func (b board) gameLogic(i, j int) int{
 	if b[i][j] == 1 {
 		switch b.neighbours(i, j) {
 			case 0, 1:
@@ -86,13 +83,13 @@ func (b board) gameLogic(i, j int) board{
 		}
 	} else {
 		if b.neighbours(i, j) == 3 {
-			return = 1
+			return 1
 		}
 	}
 }
 
 
-func (b board) neighbours(i, j) int {
+func (b board) neighbours(i, j int) int {
 	aliveNeighbours := 0
 	if b[i][j] == 1 {
 		aliveNeighbours = -1
@@ -117,9 +114,4 @@ func (b board) neighbours(i, j) int {
 	}
 	fmt.Printf("  x = %d  Alive Neighbours = %d\n", x, aliveNeighbours)
 	return aliveNeighbours
-}
-
-
-
-
 }
