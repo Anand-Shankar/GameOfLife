@@ -8,30 +8,22 @@ import (
 
 type board [][]int
 
-// Collapse into one `const` block.
-// No need to give type to a const.
 const (
 	row = 6
 	col = 6
-	generations = 1 // Move closer to usage.
+	generations = 10		// Move closer to usage.
 	userSeedPref = 1   //Should I seed the board with random or preset values?
 )
 
 func main() {
-	// Don't have commented code.
-	
-	//gameBoard := presetSeed()
 	gameBoard := createBoard()
-
 	gameBoard.print()
 	fmt.Println("............. \n")
+
 	gameBoard.simulate(generations)
-	gameBoard.print()
 }
 
-
 func createBoard() (newBoard board) {
-	//fmt.Scanln(userSeedPref)
 	if userSeedPref == 1{
 		newBoard = presetSeed()
 		return
@@ -72,7 +64,6 @@ func (b board) print() {
 
 func (b board) simulate(gen int) {
 	var copyBoard board
-
 	for g := 0; g < gen; g++ {
 		copyBoard = clone(b)
 		for i := range b {
@@ -80,29 +71,21 @@ func (b board) simulate(gen int) {
 				b[i][j] = copyBoard.gameLogic(i, j)
 			}
 		}
-		// Ideally you dont want to mix orthogonal concerns, like 
-		// simulating a board vs printing the output - which in the near
-		// future could be to image file, or HTML, etc - in the same function.
-		// That breaks SRP. Therefore, explore other ways of recording history.
-		// One way would be: return a slice of boards which are essentially the
-		// generations as the simulation ran. Then the calling method is free to
-		// do with it as it pleases.
+		b.print()
 	}
 }
 
-// Idiomatically, this should be called `clone`.
-// Read about deep copy.
 func clone(b board) board {
 	copyBoard := make(board, row)
 	for i := range(b){
 		copyBoard[i] = make([]int, col)
+			for j := range(b[i]){
+				copyBoard[i][j] = b[i][j]
+			}
 	}
-	copy(copyBoard, b)
 	return copyBoard
 }
 
-// No need for a return variable name. You never use it apart from a indirect return.
-// Be explicit. A lot of opportunies for a quick and early return.
 func (b board) gameLogic(i, j int) (cellStatus int) {
 	if b[i][j] == 1 {
 		switch b.neighbours(i, j) {
@@ -118,38 +101,23 @@ func (b board) gameLogic(i, j int) (cellStatus int) {
 			cellStatus = 1
 		}
 	}
-	return cellStatus
+	return
+}
+
+func (b board) cell(r, c int) int {
+
+	if r >= 0 && c >= 0 && r < len(b) && c < len(b[0]) {
+		return b[r][c]
+	} 
+	return 0
 }
 
 func (b board) neighbours(i, j int) int {
+	//i, j = 2, 4 //delete
 
-	aliveNeighbours := 0
-	if b[i][j] == 1 {
-		aliveNeighbours = -1
-	}
-	// Explore using a log package when you can output debug lines.
-	//fmt.Printf("[%d, %d]  %d  ", i, j, b[i][j])
-	
-	// See if there is a better way of calculating neighbours.
-	// Ex: return b.cell(i - 1, j - 1) + b.cell(i - 1, j) 
-	
-	x := 0
-	iCopy := i
-	for r := 0; r < 3; r++ {
-		if i > 0 && i <= len(b) {
-			for c := 0; c < 3; c++ {
-				if j > 0 && j <= len(b[iCopy]) {
-					if b[i-1][j-1] == 1 {
-						aliveNeighbours++
-					}
-					x++
-				}
-				j++
-			}
-			j -= 3
-		}
-		i++
-	}
-	//fmt.Printf("  x = %d  Alive Neighbours = %d\n", x, aliveNeighbours)
+	aliveNeighbours := b.cell(i-1, j-1) + b.cell(i-1, j) + b.cell(i-1, j+1) +
+					   b.cell( i , j-1) + 				   b.cell( i , j+1) +
+					   b.cell(i+1, j-1) + b.cell(i+1, j) + b.cell(i+1, j+1)
+
 	return aliveNeighbours
 }
